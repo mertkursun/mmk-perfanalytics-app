@@ -27,7 +27,6 @@ const titleData = [
 
 function ChartList() {
 	const metricsChartData = useSelector(metricsData)
-	console.log("metricsChartData", metricsChartData)
 	
 	return (
 			<List

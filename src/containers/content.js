@@ -115,7 +115,7 @@ function ContentContainer() {
 							/>
 						</Col>
 						<Col lg={{ span: 4 }}>
-							<ButtonComp text="Get Metrics"
+							<ButtonComp
 								text="Get Metrics"
 								type="primary"
 								block
