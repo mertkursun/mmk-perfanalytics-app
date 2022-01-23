@@ -5,10 +5,11 @@ const API_URL = "https://mmk-perf-api.herokuapp.com/metrics";
 
 const initialState = {
   chartData: [],
-  startDate: 0,
-  endDate: 0,
+  startDate: moment().subtract(30, 'minutes'),
+  endDate: moment(),
   metricsData: [],
-  resourcesLog: []
+  resourcesLog: [],
+  isWarning: false
 };
 
 export const analyticSlice = createSlice({
@@ -28,10 +29,13 @@ export const analyticSlice = createSlice({
     getResourcesLog: (state, action) => {
       state.resourcesLog = action.payload
     },
-    startDate: (state, action) => {
+    setWarning: (state, action) => {
+      state.isWarning = action.payload
+    },
+    setStartDate: (state, action) => {
       state.startDate = action.payload
     },
-    endDate: (state, action) => {
+    setEndDate: (state, action) => {
       state.endDate = action.payload
     }
   }
@@ -41,14 +45,15 @@ export const getDataAsync = () => async (dispatch, getState) => {
   try {
     const { analytic } = getState()
     const response = await axios.get(API_URL, {
+      
       params: {
-        startDate: analytic.startDate,
-        endDate: analytic.endDate
+        startDate: analytic.startDate["valueOf"](),
+        endDate: analytic.endDate["valueOf"]()
       }
     });
     const data = response.data["metrics"]
     const resourcesLogData = JSON.parse(window.localStorage.getItem("metrics"))
-
+    data.length === 0 && dispatch(setWarning(true))
     dispatch(getMetricsData(data))
     dispatch(getResourcesLog(resourcesLogData))
   } catch (err) {
@@ -56,11 +61,14 @@ export const getDataAsync = () => async (dispatch, getState) => {
   }
 };
 
-export const { getMetricsData, getResourcesLog, startDate, endDate } = analyticSlice.actions;
+export const { getMetricsData, getResourcesLog, setStartDate, setEndDate, setWarning } = analyticSlice.actions;
 
 export const selectCount = (state) => state.analytic.value;
 export const dataSource = (state) => state.analytic.data;
 export const metricsData = (state) => state.analytic.metricsData;
 export const resourcesLog = (state) => state.analytic.resourcesLog;
+export const startDt = (state) => state.analytic.startDate;
+export const endDt = (state) => state.analytic.endDate;
+export const isWarning = (state) => state.analytic.isWarning
 
 export default analyticSlice.reducer;

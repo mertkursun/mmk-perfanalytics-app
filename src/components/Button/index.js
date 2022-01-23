@@ -14,7 +14,6 @@ function ButtonComp(props) {
 		setType(props.type)
 	}, [props.type])
 	useEffect(() => {
-		debugger
 		setSize(props.size)
 	}, [props.size])
 	useEffect(() => {

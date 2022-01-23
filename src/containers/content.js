@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Layout, Row, Col, DatePicker, Tabs } from 'antd';
-import moment from "moment"
+import React, { useEffect } from 'react';
+import { Layout, Row, Col, DatePicker, Tabs, message } from 'antd';
 import TableComp from '../components/TableComp';
 import ChartList from '../components/ChartList';
 import ButtonComp from '../components/Button';
@@ -9,8 +8,12 @@ import {
 	getDataAsync,
 	metricsData,
 	resourcesLog,
-	startDate,
-	endDate
+	setStartDate,
+	setEndDate,
+	endDt,
+	startDt,
+	isWarning,
+	setWarning
 } from '../store/reducer';
 
 const { Content } = Layout;
@@ -81,22 +84,24 @@ const resourcesLogColumns = [
 function ContentContainer() {
 	const metricsLogData = useSelector(metricsData)
 	const resourcesLogData = useSelector(resourcesLog)
-	const [defaultDate] = useState([moment().subtract(30, 'minutes'), moment()])
+	const startDate = useSelector(startDt)
+	const endDate = useSelector(endDt)
+	const isWarningMsg = useSelector(isWarning)
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		//const defaulStartDt = defaultDate[0]["valueOf"]()
-		//const defaultEndDt = defaultDate[1]["valueOf"]()
-		//dispatch(startDate(defaulStartDt))
-		//dispatch(endDate(defaultEndDt))
-	}, [])
 
 	function handleChangeDate(val) {
 		const startDt = val[0]["valueOf"]()
 		const endDt = val[1]["valueOf"]()
-		dispatch(startDate(startDt))
-		dispatch(endDate(endDt))
+		dispatch(setStartDate(startDt))
+		dispatch(setEndDate(endDt))
 	}
+
+	useEffect(() => {
+		if (isWarningMsg) {
+			message.warning("Metrics Data is not found!")
+			setWarning(false)
+		}
+	}, [isWarningMsg])
 
 	return (
 		<Content className="content">
@@ -108,7 +113,7 @@ function ContentContainer() {
 								showTime
 								style={{ width: "100%" }}
 								format={'DD/MM/YYYY HH:mm:ss'}
-								defaultValue={defaultDate}
+								defaultValue={[startDate, endDate]}
 								size="large"
 								onChange={handleChangeDate}
 								onOk={handleChangeDate}
@@ -120,8 +125,10 @@ function ContentContainer() {
 								type="primary"
 								block
 								size="large"
-								onClick={() => dispatch(getDataAsync())}>
-              </ButtonComp>
+								onClick={() => {
+									dispatch(getDataAsync())
+								}}>
+							</ButtonComp>
 						</Col>
 					</Row>
 				</Col>
