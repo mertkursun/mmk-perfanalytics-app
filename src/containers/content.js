@@ -85,10 +85,10 @@ function ContentContainer() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const defaulStartDt = defaultDate[0]["valueOf"]()
-		const defaultEndDt = defaultDate[1]["valueOf"]()
-		dispatch(startDate(defaulStartDt))
-		dispatch(endDate(defaultEndDt))
+		//const defaulStartDt = defaultDate[0]["valueOf"]()
+		//const defaultEndDt = defaultDate[1]["valueOf"]()
+		//dispatch(startDate(defaulStartDt))
+		//dispatch(endDate(defaultEndDt))
 	}, [])
 
 	function handleChangeDate(val) {
