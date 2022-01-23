@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import moment from "moment"
 const axios = require("axios");
-const API_URL = "https://mmk-perf-api.herokuapp.com/metrics";
+const API_URL = process.env.REACT_APP_ENV === "local" ? "http://localhost:5010/metrics" : "https://mmk-perf-api.herokuapp.com/metrics";
 
 const initialState = {
   chartData: [],
