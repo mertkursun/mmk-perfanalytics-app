@@ -1,0 +1,14 @@
+@import "antd/dist/antd.css";
+
+.App .container .header {
+  height: 100%;
+  padding: 0;
+}
+
+.App .container .header h1 {
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  font-size: 28px;
+}

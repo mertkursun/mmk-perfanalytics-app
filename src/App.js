@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import HeaderContainer from './containers/header';
 import ContentContainer from "./containers/content";
-import './App.scss';
+import './App.css';
 
 function App() {
   return (
