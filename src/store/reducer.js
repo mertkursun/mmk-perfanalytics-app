@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import moment from "moment"
 const axios = require("axios");
 const API_URL = process.env.REACT_APP_ENV === "local" ? "http://localhost:5010/metrics" : "https://mmk-perf-api.herokuapp.com/metrics";
-console.log("process.env.REACT_APP_ENV", process.env.REACT_APP_ENV)
+console.log("process.env.REACT_APP_ENV", process)
 const initialState = {
   chartData: [],
   startDate: moment().subtract(30, 'minutes'),
